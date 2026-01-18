@@ -1,0 +1,27 @@
+{% extends "base.njk" %}
+
+{% block title %}Search Circuits{% endblock %}
+
+{% block content %}
+    <h2>Search Circuits</h2>
+    <form id="searchForm">
+        <label>Gate: <input type="text" id="gateInput" required></label>
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        const form = document.getElementById("searchForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const gate = document.getElementById("gateInput").value;
+            const res = await fetch("/api/search?gate=" + encodeURIComponent(gate));
+            const data = await res.json();
+            document.getElementById("results").innerHTML =
+                data.length > 0
+                    ? "<ul>" + data.map(c => "<li><a href='/circuit/" + c.id + "'>" + c.name + "</a></li>").join("") + "</ul>"
+                    : "<p>No circuits found.</p>";
+        });
+    </script>
+
+{% endblock %}

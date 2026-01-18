@@ -1,0 +1,13 @@
+{% extends "base.njk" %}
+
+{% block title %}Submit Circuit{% endblock %}
+
+{% block content %}
+    <h2>Submit Circuit</h2>
+    <form method="POST" action="/submit-circuit">
+        <label>Name: <input type="text" name="name" required></label><br>
+        <label>Qubits: <input type="number" name="qubits" min="1" required></label><br>
+        <label>Gates (comma separated): <input type="text" name="gates" required></label><br>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

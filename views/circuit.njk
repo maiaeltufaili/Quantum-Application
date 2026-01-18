@@ -1,0 +1,38 @@
+{% extends "base.njk" %}
+
+{% block title %}Circuit: {{ circuit.name }}{% endblock %}
+
+{% block content %}
+    <h2>Circuit: {{ circuit.name }}</h2>
+    <p><strong>Qubits:</strong> {{ circuit.qubits }}</p>
+    <p><strong>Gates:</strong> {{ circuit.gates | join(", ") }}</p>
+
+    <h3>Visual Simulation:</h3>
+    {% for line in diagram %}
+        <pre>{{ line }}</pre>
+    {% endfor %}
+
+    <button id="simulateBtn">Simulate Circuit</button>
+    <div id="simulationResults"></div>
+
+    <p><a href="/download/{{ circuitId }}">Download JSON</a></p>
+
+    <script>
+        const btn = document.getElementById("simulateBtn");
+        const resultsDiv = document.getElementById("simulationResults");
+
+        btn.addEventListener("click", () => {
+            resultsDiv.innerHTML = "<p>Simulation started...</p>";
+            const evtSource = new EventSource("/simulate/{{ circuitId }}");
+
+            evtSource.onmessage = (event) => {
+                resultsDiv.innerHTML = `<p>${event.data}</p>`;
+            };
+
+            evtSource.addEventListener("end", (event) => {
+                resultsDiv.innerHTML = `<p>${event.data}</p>`;
+                evtSource.close();
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.njk" %}
+
+{% block title %}All Circuits{% endblock %}
+
+{% block content %}
+    <h2>All Circuits</h2>
+
+    {% if circuits.length > 0 %}
+        <ul>
+            {% for circuit in circuits %}
+                <li><a href="/circuit/{{ circuit.id }}">{{ circuit.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No circuits available.</p>
+    {% endif %}
+{% endblock %}

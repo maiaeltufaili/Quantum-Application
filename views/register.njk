@@ -1,0 +1,12 @@
+{% extends "base.njk" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form method="POST">
+        <label>Username: <input name="username" required></label>
+        <label>Password: <input type="password" name="password" required></label>
+        <button>Register</button>
+    </form>
+{% endblock %}
